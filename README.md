@@ -1,3 +1,8 @@
+---
+layout: default
+permalink: index.html
+---
+
 # EthDNS and EthLink
 
 
@@ -45,7 +50,7 @@ ENS has a `contenthash` field which contains a pointer to content somewhere on t
 
 For example:
 
-```
+```bash
 $ dig @127.0.0.1 +short wealdtech.eth A  
 104.18.64.168
 $ dig @127.0.0.1 +short wealdtech.eth TXT
@@ -82,7 +87,7 @@ Enabling ENS-based resolution is a simple case of using the EthLink. You should 
 
 For instance, eth.link DNS record looks like
 
-```
+```dns
 eth.link CNAME 3600 resolver.cloudflare-eth.com
 ```
 
