@@ -1,0 +1,51 @@
+name: Build and deploy jekyll site
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  jekyll:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: 📂 setup
+        uses: actions/checkout@v2
+
+      - name: 💎 setup ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.7
+
+      - name: 📦 setup node
+        uses: actions/setup-node@v2-beta
+        with:
+          node-version: '14'
+
+      - name: ⬇️ cache node modules
+        uses: actions/cache@v2
+        with:
+          path: ./node_modules
+          key: ${{ runner.OS }}-node
+          restore-keys: |
+            ${{ runner.OS }}-node
+            ${{ runner.OS }}-
+
+      - name: 🧊 install ipfs-deploy
+        run: npm install ipfs-deploy
+
+      - name: 🔨 install dependencies & build site
+        uses: limjh16/jekyll-action-ts@v2
+        with:
+          enable_cache: true
+          format_output: true
+          jekyll_src: ./
+
+      - name: 🚀 deploy
+        run: ./node_modules/.bin/ipfs-deploy -p pinata -d cloudflare ./_site -C -O
+        env:
+          IPFS_DEPLOY_PINATA__API_KEY: ${{ secrets.PINATA_KEY }}
+          IPFS_DEPLOY_PINATA__SECRET_API_KEY: ${{ secrets.PINATA_SECRET }}
+          IPFS_DEPLOY_CLOUDFLARE__API_TOKEN: ${{ secrets.CLOUDFLARE_TOKEN }}
+          IPFS_DEPLOY_CLOUDFLARE__ZONE: ${{ secrets.CLOUDFLARE_ZONE }}
+          IPFS_DEPLOY_CLOUDFLARE__RECORD: ${{ secrets.CLOUDFLARE_RECORD }}
