@@ -94,7 +94,7 @@ eth.link CNAME 3600 resolver.cloudflare-eth.com
 
 ## Further reading
 
-[A Distributed Web Resolver for the rest of us](cloudflare blog)
+[A Name Resolver for the Distributed Web](https://blog.cloudflare.com/cloudflare-distributed-web-resolver)
 
 [The basic workings of EthDNS, the system that enables DNS records on ENS.](http://www.wealdtech.com/articles/ethdns-an-ethereum-backend-for-the-domain-name-system/)
 
